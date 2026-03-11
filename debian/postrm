@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+APP=betzbird
+MOUNT_UNIT=var-lib-betzbird-ramdisk.mount
+
+# Only interact with systemd if it exists
+if command -v systemctl >/dev/null 2>&1; then
+    case "$1" in
+        remove|upgrade)
+            # Stop service and ramdisk (but keep them enabled)
+            systemctl stop $APP.service 2>/dev/null || true
+            systemctl stop $MOUNT_UNIT 2>/dev/null || true
+            ;;
+
+        purge)
+            # Stop and disable everything on purge
+            systemctl stop $APP.service 2>/dev/null || true
+            systemctl disable $APP.service 2>/dev/null || true
+
+            systemctl stop $MOUNT_UNIT 2>/dev/null || true
+            systemctl disable $MOUNT_UNIT 2>/dev/null || true
+            ;;
+    esac
+
+    # Reload systemd after unit changes
+    systemctl daemon-reload
+fi
+
+exit 0

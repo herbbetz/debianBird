@@ -1,0 +1,12 @@
+[Unit]
+Description=betzbird tmpfs ramdisk
+Before=betzbird.service
+
+[Mount]
+What=tmpfs
+Where=/var/lib/betzbird/ramdisk
+Type=tmpfs
+Options=size=64M,mode=0750,uid=betzbird,gid=betzbird
+
+[Install]
+WantedBy=multi-user.target

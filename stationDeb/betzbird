@@ -1,0 +1,4 @@
+#!/bin/bash
+# launcher binary for debian package
+cd /usr/lib/betzbird
+./startup1stage.sh

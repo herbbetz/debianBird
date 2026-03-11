@@ -1,0 +1,46 @@
+#!/bin/sh
+set -e
+
+APP=betzbird
+APPUSER=betzbird
+APPGROUP=betzbird
+# STATE is 'writedir' in configBird3.py:
+STATE=/var/lib/$APP
+DEFAULT=/usr/lib/$APP/config.default.json
+RUNTIME=$STATE/config.json
+
+# system user
+if ! getent passwd "$APPUSER" >/dev/null; then
+    adduser --system --group --home "$STATE" "$APPUSER"
+fi
+
+# persistent dirs
+mkdir -p /etc/$APP
+mkdir -p /var/log/$APP
+mkdir -p "$STATE"
+mkdir -p "$STATE/ramdisk"
+mkdir -p "$STATE/keep"
+
+# ownership
+chown root:root /etc/$APP
+chmod 755 /etc/$APP
+
+chown -R $APPUSER:$APPGROUP /var/log/$APP "$STATE"
+chmod 750 /var/log/$APP "$STATE"
+
+# initial state file (first install only)
+# states apart from config.json like camdata or statistics are created by the APP itself
+if [ ! -f "$RUNTIME" ]; then
+    cp "$DEFAULT" "$RUNTIME"
+    chown $APPUSER:$APPGROUP "$RUNTIME"
+    chmod 640 "$RUNTIME"
+fi
+# initialize keep/ from defaults (first install only, when $STATE/keep/ empty)
+if [ -d /usr/lib/$APP/keep ]; then
+    if [ -z "$(ls -A "$STATE/keep" 2>/dev/null)" ]; then
+        cp -a /usr/lib/$APP/keep/. "$STATE/keep/"
+        chown -R $APPUSER:$APPGROUP "$STATE/keep"
+    fi
+fi
+
+exit 0

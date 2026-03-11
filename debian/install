@@ -1,0 +1,5 @@
+stationDeb/betzbird       usr/bin/
+stationDeb/*              usr/lib/betzbird/
+# Systemd units (now at top-level)
+betzbird.service                     lib/systemd/system/
+var-lib-betzbird-ramdisk.mount       lib/systemd/system/

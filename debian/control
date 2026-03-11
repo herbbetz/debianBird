@@ -1,0 +1,31 @@
+Source: betzbird
+Section: utils
+Priority: optional
+Maintainer: herbertbetz <herber7be7z@gmail.com>
+Rules-Requires-Root: no
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.2
+Homepage: https://herbbetz.github.io/betzBirdiary/
+
+# ← THIS BLANK LINE IS MANDATORY
+
+Package: betzbird
+Architecture: all
+Depends:
+ python3,
+ python3-picamera2,
+ libcamera-apps,
+ libcamera-tools,
+ bc,
+ curl,
+ jq,
+ screen,
+ ffmpeg,
+ mosquitto-clients,
+ python3-ephem,
+ python3-flask,
+ python3-markdown,
+ python3-matplotlib,
+ bash,
+ ${misc:Depends}
+Description: betzBirdiary debian package - Raspicam for recording feeding birds

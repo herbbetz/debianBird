@@ -1,0 +1,14 @@
+[Unit]
+Description=BetzBirdiary Startup
+After=network.target
+
+[Service]
+Type=simple
+User=betzbird
+Group=betzbird
+ExecStart=/usr/bin/betzbird
+WorkingDirectory=/usr/lib/betzbird
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

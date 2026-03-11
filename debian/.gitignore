@@ -1,0 +1,5 @@
+/betzbird/
+/files
+/*.substvars
+/.debhelper/
+/debhelper-build-stamp
